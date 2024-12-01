@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 
 function Create() {
   return (
-    <div>
-      <input type="text" name="" id="" />
+    <div className="create_form"> 
+      <input type="text" placeholder="Enter Task" />
       <button type="button">Add</button>
     </div>
-  )
+  );
 }
 
-export default Create
+export default Create;
