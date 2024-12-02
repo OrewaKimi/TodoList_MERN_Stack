@@ -24,7 +24,7 @@ function Home() {
         axios.delete('http://localhost:3001/delete/' + id)
         .then(result => {
             console.log('Deleted:', result.data);
-            location.reload(); // Atau Anda bisa memperbarui state tanpa reload
+            location.reload(); 
         })
         .catch(err => {
             console.error('Error deleting:', err);

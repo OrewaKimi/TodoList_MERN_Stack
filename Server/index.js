@@ -25,7 +25,7 @@ app.put('/update/:id', (req, res) => {
 
 app.delete('/delete/:id', (req, res) => {
     const { id } = req.params;
-    console.log(`Request to delete ID: ${id}`); // Log ID yang diterima
+    console.log(`Request to delete ID: ${id}`);
     TodoModel.findByIdAndDelete({ _id: id })
     .then(result => {
         if (result) {
