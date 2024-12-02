@@ -23,6 +23,23 @@ app.put('/update/:id', (req, res) => {
     .catch(err => res.json(err))
 })
 
+app.delete('/delete/:id', (req, res) => {
+    const { id } = req.params;
+    console.log(`Request to delete ID: ${id}`); // Log ID yang diterima
+    TodoModel.findByIdAndDelete({ _id: id })
+    .then(result => {
+        if (result) {
+            res.json(result);
+        } else {
+            console.log('Todo not found');
+            res.status(404).json({ error: 'Todo not found' });
+        }
+    })
+    .catch(err => {
+        console.error('Delete error:', err);
+        res.status(500).json(err);
+    });
+});
 
 app.post('/add', (req, res) => { 
     const task = req.body.task;
@@ -31,6 +48,7 @@ app.post('/add', (req, res) => {
     }).then(result => res.json(result))
     .catch(err => res.json(err))
 })
+
 app.listen(3001, () => {
     console.log('Server is running on port 3001')
 })
