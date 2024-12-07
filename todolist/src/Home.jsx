@@ -1,34 +1,39 @@
 import React, { useState, useEffect } from 'react'; 
 import Create from './Create';
 import axios from 'axios';
-import { BsCircleFill, BsFillCheckCircleFill, BsTrashFill } from 'react-icons/bs'; // Add this line
+import { BsCircleFill, BsFillCheckCircleFill, BsTrashFill } from 'react-icons/bs';
 
 function Home() {
     const [todos, setTodos] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/get')
-        .then(result => setTodos(result.data))
-        .catch(err => console.log(err));
-    }, [])
+        fetchTodos();
+    }, []);
+
+    const fetchTodos = () => {
+        axios.get('http://localhost:3001/todos')
+            .then(result => setTodos(result.data))
+            .catch(err => console.log(err));
+    }
 
     const handleEdit = (id) => {
-        axios.put('http://localhost:3001/update/' + id)
-        .then(result => {
-            location.reload()
-        })
-        .catch(err => console.log(err));
+        axios.put('http://localhost:3001/todos/' + id)
+            .then(result => {
+                console.log('Todo updated:', result.data);
+                fetchTodos(); 
+            })
+            .catch(err => console.log(err));
     }
 
     const handleDelete = (id) => {
-        axios.delete('http://localhost:3001/delete/' + id)
-        .then(result => {
-            console.log('Deleted:', result.data);
-            location.reload(); 
-        })
-        .catch(err => {
-            console.error('Error deleting:', err);
-        });
+        axios.delete('http://localhost:3001/todos/' + id)
+            .then(result => {
+                console.log('Deleted:', result.data);
+                fetchTodos(); 
+            })
+            .catch(err => {
+                console.error('Error deleting:', err);
+            });
     }
 
     return (
@@ -42,10 +47,10 @@ function Home() {
                 <div><h2>No record</h2></div>
                 :
                 todos.map(todo => (
-                    <div className='task' key={todo._id}> {/* Tambahkan key di sini */}
+                    <div className='task' key={todo._id}>
                         <div className='checkbox' onClick={() => handleEdit(todo._id)}>
                             {todo.done ? 
-                            <BsFillCheckCircleFill className='icon'></BsFillCheckCircleFill>
+                            <BsFillCheckCircleFill className='icon' />
                             :
                             <BsCircleFill className='icon' />
                             }                   
@@ -59,7 +64,7 @@ function Home() {
                 ))
             }
         </div>
-    )
+    );
 }
 
 export default Home;
